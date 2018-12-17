@@ -9,12 +9,12 @@ from app.models import User
 
 class RegistrationView(MethodView):
     """This class registers a new user"""
-    
+
     def post(self):
         """Handle POST request for this view. Url ---> /auth/register"""
         # Query to see if the user already exists
         user = User.query.filter_by(email=request.data['email']).first()
-        
+
         if not user:
             # There is no user so we'll try to register them
             try:
@@ -24,28 +24,29 @@ class RegistrationView(MethodView):
                 password = post_data['password']
                 user = User(email=email, password=password)
                 user.save()
-                
+
                 response = {
-                    'message': 'You have registered successfully. Please login.'
+                    'message':
+                    'You have registered successfully. Please login.'
                 }
-                
-                # return a response notifying the user that they registered successfully
+
+                # Return a response notifying the user about registration
                 return make_response(jsonify(response)), 201
             except Exception as e:
-                # An error occured, therefore return a string message containing the error                
+                # An error occured, therefore return a string message about
                 response = {
                     'message': str(e)
                 }
-                
+
                 return make_response(jsonify(response)), 401
-            
+
         else:
             # There is an existing user. We don't want to register users twice
-            # Return a message to the user telling them that they they already exist
+            # Return a message to the user telling them that they already exist
             response = {
                 'message': 'User already exists. Please login'
             }
- 
+
             return make_response(jsonify(response)), 202
 
 
@@ -56,15 +57,15 @@ class LoginView(MethodView):
         try:
             # Get the user object using their email (unique to every user)
             user = User.query.filter_by(email=request.data['email']).first()
-            
+
             # Try to authenticate the found user using their password
             if user and user.password_is_valid(request.data['password']):
-                # Generate the access token. This will be used as the authorization header
+                # Generate the access token to use for the authorization header
                 access_token = user.generate_token(user.id)
                 if access_token:
                     response = {
                         'message': 'You logged in successfully.',
-                        'access_token': access_token.decode()                        
+                        'access_token': access_token.decode()
                     }
                     return make_response(jsonify(response)), 200
             else:
@@ -77,10 +78,11 @@ class LoginView(MethodView):
         except Exception as e:
             # Create a response containing an string error message
             response = {
-                'message': str(e)    
+                'message': str(e)
             }
-            # Return a server error using the HTTP Error Code 500 (Internal Server Error)        
+            # Return a server error using the HTTP Error Code 500
             return make_response(jsonify(response)), 500
+
 
 # Define the API resource
 registration_view = RegistrationView.as_view('registration_view')
@@ -99,5 +101,3 @@ auth_blueprint.add_url_rule(
     '/auth/login',
     view_func=login_view,
     methods=['POST'])
-
-
