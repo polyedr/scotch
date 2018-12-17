@@ -6,7 +6,11 @@ export DATABASE_URL="postgresql://postgres:postgrespassword1@localhost:5432/flas
 2 out of 5 tests should pass. We've now handled the GET and POST requests successfully. 
 These tests were not passed
 
+17.12.2018
+secret key:
+https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask
 
+curl -H "Content-Type: application/json" -X POST -d '{"name": "Go to London for vacations"}' http://127.0.0.1:5000/bucketlists/
 
 
 

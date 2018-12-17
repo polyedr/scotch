@@ -15,15 +15,18 @@ class Config(object):
 class DevelopmentConfig(Config):
     """Configurations for development."""
     DEBUG = True
-    
+
+
 class TestingConfig(Config):
     """Configurations for testing with a separate test database"""
     TESTING = True
-    #SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/test_db'
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgrespassword1@localhost:5432/test_db'    
-
-    DEBUG = True
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/test_db'
+    # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgrespassword1@localhost:5432/test_db'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:1@localhost:5432/test_db'
     
+    DEBUG = True
+
+
 class StagingConfig(Config):
     """Configurations for Staging"""
     DEBUG = True
@@ -36,7 +39,7 @@ class ProductionConfig(Config):
 
 
 app_config = {
-    'development': DevelopmentConfig,    
+    'development': DevelopmentConfig,
     'testing': TestingConfig,
     'staging': StagingConfig,
     'production': ProductionConfig,
