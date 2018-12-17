@@ -1,4 +1,4 @@
-https://scotch.io/tutorials/build-a-restful-api-with-flask-the-tdd-way#toc-run-it-
+https://scotch.io/tutorials/build-a-restful-api-with-flask-the-tdd-way
 workon flasktdd
 
 export DATABASE_URL="postgresql://postgres:postgrespassword1@localhost:5432/flask_api"
@@ -12,26 +12,9 @@ https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-fla
 
 curl -H "Content-Type: application/json" -X POST -d '{"name": "Go to London for vacations"}' http://127.0.0.1:5000/bucketlists/
 
+https://scotch.io/tutorials/build-a-restful-api-with-flask-the-tdd-way-part-2
+User Login
+A user will have to login to gain access to our API. Currently, we are lacking this login functionality. Let's start with some tests. We'll add two more tests at the bottom of our test_auth.py as follows:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+If you run the tests, you will notice that the login tests pass, but the bucketlist one still fail. It's time to refactor this tests.
+Tests were not passed properly.
