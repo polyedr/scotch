@@ -26,7 +26,7 @@ class RegistrationView(MethodView):
                 user.save()
                 
                 response = {
-                    'message': 'You registered successfully. Please login.'
+                    'message': 'You have registered successfully. Please login.'
                 }
                 
                 # return a response notifying the user that they registered successfully
@@ -43,7 +43,7 @@ class RegistrationView(MethodView):
             # There is an existing user. We don't want to register users twice
             # Return a message to the user telling them that they they already exist
             response = {
-                'message': 'Uesr already exists. Please login.'
+                'message': 'User already exists. Please login'
             }
  
             return make_response(jsonify(response)), 202
