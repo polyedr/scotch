@@ -24,3 +24,63 @@ app/models.py:53:17: F821 undefined name 'current_app'
 https://stackoverflow.com/questions/14299497/flask-app-object-inside-blueprint
 
 Make a POST request to localhost:5000/bucketlists/, specifying the name of the bucketlist. Click send. 
+
+curl 'http://127.0.0.1:5000/bucketlists/' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' -H 'Cookie: csrftoken=lmJUR5WJmtauu8Ss0IpdnL52rgn04OVi; fldt=hide' -H 'Upgrade-Insecure-Requests: 1' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache'
+
+curl 'http://127.0.0.1:5000/bucketlists/' -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDUxMDk0MDIsImlhdCI6MTU0NTEwOTEwMiwic3ViIjoxfQ.c9Z1UXLLJvJ3cSXRPjcHNX8M0-jF037kuxbvlb8jJkw" -X POST -d {"created_by": 1, "id": 4, "name": "learn something"}
+
+API requests
+
+/auth/register
+curl -X POST http://127.0.0.1:5000/auth/register -F email=iishchukov@allmax.team -F password=testpassword1
+curl -X POST http://127.0.0.1:5000/auth/register -F email=ivan.ishchukov@allmax.team -F password=testpassword1
+
+/auth/login
+(flasktddenv) user@linux-wq94:~/Desktop/Programming/Flask/scotch> curl -X POST http://127.0.0.1:5000/auth/login -F email=iishchukov@allmax.team -F password=testpassword1
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDUxMTIxMDUsImlhdCI6MTU0NTExMTgwNSwic3ViIjoyfQ.NouaaVhyDAL-_6ckgBBffqrIRwjAjxlJHGVZ-7M4p3E", 
+  "message": "You logged in successfully."
+}
+
+POST /bucketlists/
+(flasktddenv) user@linux-wq94:~/Desktop/Programming/Flask/scotch> curl -X POST http://127.0.0.1:5000/bucketlists/ -H "authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDUxMTIxMDUsImlhdCI6MTU0NTExMTgwNSwic3ViIjoyfQ.NouaaVhyDAL-_6ckgBBffqrIRwjAjxlJHGVZ-7M4p3E" -H 'content-type: application/json' -d '{"created_by": 3, "date_created": "Tue, 18 Dec 2018 00:00:00 GMT", "date_modified": "Tue, 18 Dec 2018 12:00:00 GMT", "id": 4, "name": "learn smth1"}'
+{
+  "created_by": 2, 
+  "date_created": "Tue, 18 Dec 2018 12:44:05 GMT", 
+  "date_modified": "Tue, 18 Dec 2018 12:44:05 GMT", 
+  "id": 5, 
+  "name": "learn smth1"
+}
+
+GET http://127.0.0.1:5000/bucketlists/
+(flasktddenv) user@linux-wq94:~/Desktop/Programming/Flask/scotch> curl -X GET http://127.0.0.1:5000/bucketlists/ -H 'authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDUxMTIxMDUsImlhdCI6MTU0NTExMTgwNSwic3ViIjoyfQ.NouaaVhyDAL-_6ckgBBffqrIRwjAjxlJHGVZ-7M4p3E' -d '{"created_by": 3, "date_created": "Tue, 18 Dec 2018 00:00:00 GMT", "date_modified": "Tue, 18 Dec 2018 12:00:00 GMT", "id": 4, "name": "learn smth" }'
+[
+  {
+    "created_by": 2, 
+    "date_created": "Tue, 18 Dec 2018 12:37:26 GMT", 
+    "date_modified": "Tue, 18 Dec 2018 12:37:26 GMT", 
+    "id": 2, 
+    "name": "learn smth"
+  }, 
+  {
+    "created_by": 2, 
+    "date_created": "Tue, 18 Dec 2018 12:37:39 GMT", 
+    "date_modified": "Tue, 18 Dec 2018 12:37:39 GMT", 
+    "id": 3, 
+    "name": "learn smth"
+  }, 
+  {
+    "created_by": 2, 
+    "date_created": "Tue, 18 Dec 2018 12:38:41 GMT", 
+    "date_modified": "Tue, 18 Dec 2018 12:38:41 GMT", 
+    "id": 4, 
+    "name": "learn smth"
+  }, 
+  {
+    "created_by": 2, 
+    "date_created": "Tue, 18 Dec 2018 12:44:05 GMT", 
+    "date_modified": "Tue, 18 Dec 2018 12:44:05 GMT", 
+    "id": 5, 
+    "name": "learn smth1"
+  }
+]
