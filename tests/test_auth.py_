@@ -35,7 +35,7 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
 
     def test_already_registered_user(self):
-        """Test that a user cannot be registered twice."""
+        """Test if user cannot be registered twice."""
         res = self.client().post('/auth/register', data=self.user_data)
         self.assertEqual(res.status_code, 201)
         second_res = self.client().post('/auth/register', data=self.user_data)
@@ -44,16 +44,21 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(result['message'], "User already exists. Please login")
 
     def test_user_login(self):
-        """Test registered user can login"""
+        """Test if registered user can login"""
         res = self.client().post('/auth/register', data=self.user_data)
         self.assertEqual(res.status_code, 201)
-        login_res = self.client().post('/auth/login', data=self.user_data)
+        login_res = self.client().post('/auth/login', data=self.user_data) # <APIResponse 58 bytes [500 INTERNAL SERVER ERROR]>
 
         # get the results in json format
-        result = json.loads(login_res.data.decode())
-
+        #result = json.loads(login_res.data.decode())
+        result = json.loads(login_res.data)
         # Test that the response contains success message
-        self.assertEqual(result['message'], 'You logged in successfully')
+        print("login_res=", login_res)             
+        print("login_res.data=", login_res.data)        
+        print("result=", result)        
+        print("result['message']=", result['message'])
+        #print()
+        self.assertEqual(result['message'], 'You logged in successfully.')
         # Assert that the status code is equal to 200
         self.assertEqual(login_res.status_code, 200)
         self.assertTrue(result['access_token'])
@@ -69,7 +74,7 @@ class AuthTestCase(unittest.TestCase):
         res = self.client().post('/auth/login', data=not_a_user)
         # get the result in json
         result = json.loads(res.data.decode())
-
+        print("result=", result)
         # assert that this response must contain an error message
         # and an error status code 401(Unauthorized)
         self.assertEqual(res.status_code, 401)

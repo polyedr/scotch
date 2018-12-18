@@ -4,30 +4,31 @@ from flask_bcrypt import Bcrypt
 from app import db
 import jwt
 from datetime import datetime, timedelta
+from flask import Flask, current_app
 
 
 class User(db.Model):
     """This class defines the users table"""
-    
-    __tablename__ = 'users'
 
+    __tablename__ = 'users'
 
     # Define the columns of the users table
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(256), nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
-    bucketlists = db.relationship('Bucketlist', order_by='Bucketlist.id', cascade="all, delete-orphan")
-    
+    bucketlists = db.relationship(
+        'Bucketlist', order_by='Bucketlist.id', cascade="all, delete-orphan")
+
     def __init__(self, email, password):
         """Initialize the user with email and password"""
         self.email = email
         self.password = Bcrypt().generate_password_hash(password).decode()
-    
+
     def password_is_valid(self, password):
-       """
-       Checks the password against hash to validate the password of the user
-       """
-       return Bcrypt().check_password_hash(self.password, password)
+        """
+        Checks the password against hash to validate the password of the user
+        """
+        return Bcrypt().check_password_hash(self.password, password)
 
     def save(self):
         """
@@ -46,18 +47,18 @@ class User(db.Model):
                 'iat': datetime.utcnow(),
                 'sub': user_id
             }
-        
+
             # Create the byte string token using the payload and the secret key
             jwt_string = jwt.encode(
-                payload,    
+                payload,
                 current_app.config.get('SECRET'),
                 algorithm='HS256'
             )
             return jwt_string
-            
+
         except Exception as e:
             return str(e)
-        
+
     @staticmethod
     def decode_token(token):
         """Decodes the access token from the Authorization header."""
@@ -87,7 +88,6 @@ class Bucketlist(db.Model):
         """initialize with name."""
         self.name = name
         self.created_by = created_by
-
 
     def save(self):
         db.session.add(self)

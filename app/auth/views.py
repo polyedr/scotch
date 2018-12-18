@@ -26,8 +26,7 @@ class RegistrationView(MethodView):
                 user.save()
 
                 response = {
-                    'message':
-                    'You have registered successfully. Please login.'
+                    'message': 'You have registered successfully. Please login.'
                 }
 
                 # Return a response notifying the user about registration

@@ -23,7 +23,7 @@ class TestingConfig(Config):
     # SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/test_db'
     # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgrespassword1@localhost:5432/test_db'
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:1@localhost:5432/test_db'
-    
+
     DEBUG = True
 
 
